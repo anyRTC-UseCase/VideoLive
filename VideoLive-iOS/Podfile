@@ -1,0 +1,18 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'VideoLive-iOS' do
+    #anyRTC 音视频库
+    pod 'ARtcKit_iOS', '~> 4.2.2.2'
+    #anyRTC 实时消息库
+    pod 'ARtmKit_iOS', '~> 1.0.1.6'
+    
+    pod 'SnapKit'
+    pod 'Alamofire'
+    pod 'SwiftyJSON', '< 5.0.0'
+    pod 'MJRefresh'
+    pod 'SDWebImage', '~> 3.7.3'
+    pod 'AttributedString'
+    pod 'SVProgressHUD'
+end
+
