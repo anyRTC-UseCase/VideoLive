@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.activity.RTCGuestActivity">
+
+    <io.anyrtc.videolive.view.AnyVideosLayout
+        android:id="@+id/rl_host_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:at4smallViewsPadding="8dp"
+        app:between23viewsPadding="1dp"
+        app:defMultipleVideosTopPadding="108dp"
+        app:initTopicMode="true" />
+
+    <io.anyrtc.videolive.view.ChatRecyclerView
+        android:id="@+id/messages"
+        android:layout_width="252dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp"
+        android:fadingEdgeLength="26dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/music_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="47dp"
+        android:background="@drawable/shape_host_music_bg"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon_music"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:src="@drawable/host_icon_music" />
+
+        <TextView
+            android:id="@+id/music_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:paddingEnd="12dp"
+            android:text="主播未播放音乐"
+            android:textColor="#1A1A1E"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/loss_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="@string/defaultLossRate"
+        android:textColor="@color/internet_state_download_color"
+        android:textSize="10sp"
+        app:drawableStartCompat="@drawable/host_icon_download"
+        app:layout_constraintBottom_toBottomOf="@id/music_bg"
+        app:layout_constraintLeft_toRightOf="@id/music_bg"
+        app:layout_constraintTop_toTopOf="@id/music_bg"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/lag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="@string/defaultLagging"
+        android:textColor="@color/internet_state_download_color"
+        android:textSize="10sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/loss_rate"
+        tools:ignore="SmallSp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/internet_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="loss_rate,lag" />
+
+    <View
+        android:id="@+id/loading_bg"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/shape_cdn_loading_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/loading_icon"
+        style="@style/CircleStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/img_loading"
+        app:layout_constraintBottom_toTopOf="@id/loading_title"
+        app:layout_constraintLeft_toLeftOf="@id/loading_bg"
+        app:layout_constraintRight_toRightOf="@id/loading_bg"
+        app:layout_constraintTop_toTopOf="@id/loading_bg"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/loading_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        android:textColor="#C0C0CC"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/loading_bg"
+        app:layout_constraintLeft_toLeftOf="@id/loading_bg"
+        app:layout_constraintRight_toRightOf="@id/loading_bg"
+        app:layout_constraintTop_toBottomOf="@id/loading_icon" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loading_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="loading_bg,loading_icon,loading_title" />
+    <!--<TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/shape_guest_text_btn_bg"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="15dp"
+        android:text="@string/message"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/host_icon_chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/apply"
+        android:layout_width="160dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_guest_text_btn_bg"
+        android:gravity="center"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/message" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/img_back_x_white"
+        app:layout_constraintBottom_toBottomOf="@id/apply"
+        app:layout_constraintRight_toRightOf="@id/apply"
+        app:layout_constraintTop_toTopOf="@id/apply" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/apply_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="message,apply,icon_close" />-->
+
+    <!-- host accepted user join -->
+    <View
+        android:id="@+id/bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/shape_host_bottom_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_point"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/bottom_point"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/icon_chat" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon_chat"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/host_icon_chat"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toLeftOf="@id/icon_switch"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon_switch"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/transparent"
+        android:src="@drawable/guest_icon_switch"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toLeftOf="@id/icon_video"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/icon_video"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/transparent"
+        android:button="@drawable/checkbox_video_icon"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toLeftOf="@id/icon_voice"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/icon_voice"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:button="@drawable/checkbox_voice_icon"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toLeftOf="@id/apply"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/conn_mode_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="icon_switch,icon_video,icon_voice" />
+
+    <TextView
+        android:id="@+id/apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toLeftOf="@id/icon_finish"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon_finish"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/host_icon_leave"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar"
+        app:layout_constraintRight_toRightOf="@id/bottom_bar"
+        app:layout_constraintTop_toTopOf="@id/bottom_bar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F9F9F9"
+    android:minHeight="300dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#1A1A1E"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="排麦队列 23" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dismiss"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/img_back_x"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title" />
+
+    <View
+        android:id="@+id/dividing_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="9dp"
+        android:background="#EBEBF2"
+        app:layout_constraintTop_toBottomOf="@id/dismiss" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/queue_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:gravity="center"
+        android:text="@string/voice_queue_empty"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line" />
+</androidx.constraintlayout.widget.ConstraintLayout>

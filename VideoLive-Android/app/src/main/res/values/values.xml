@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchVideoLayout">
+        <attr name="queueScaled" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="AnyVideoGroup">
+        <attr name="between23viewsPadding" format="dimension" />
+        <attr name="at4smallViewsPadding" format="dimension" />
+        <attr name="defMultipleVideosTopPadding" format="dimension" />
+        <attr name="initTopicMode" format="boolean" />
+    </declare-styleable>
+</resources>

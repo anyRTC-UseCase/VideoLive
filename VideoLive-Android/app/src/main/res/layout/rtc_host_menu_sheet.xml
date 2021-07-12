@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F9F9F9"
+    android:minHeight="240dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/more"
+        android:textColor="#1A1A1E"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dismiss"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/img_back_x"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title" />
+
+    <View
+        android:id="@+id/dividing_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="9dp"
+        android:background="#EBEBF2"
+        app:layout_constraintTop_toBottomOf="@id/dismiss" />
+
+    <TextView
+        android:id="@+id/normal_density"
+        android:layout_width="104dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/checkbox_resolution_checked"
+        android:gravity="center"
+        android:text="@string/normal_density"
+        android:textColor="#314BFF"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/high_density"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line" />
+
+    <TextView
+        android:id="@+id/high_density"
+        android:layout_width="104dp"
+        android:layout_height="40dp"
+        android:background="@drawable/checkbox_resolution_unchecked"
+        android:gravity="center"
+        android:text="@string/high_density"
+        android:textColor="#5A5A67"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/normal_density"
+        app:layout_constraintRight_toLeftOf="@id/ultra_density"
+        app:layout_constraintTop_toTopOf="@id/normal_density" />
+
+    <TextView
+        android:id="@+id/ultra_density"
+        android:layout_width="104dp"
+        android:layout_height="40dp"
+        android:background="@drawable/checkbox_resolution_unchecked"
+        android:gravity="center"
+        android:text="@string/ultra_density"
+        android:textColor="#5A5A67"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/high_density"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/normal_density" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/switch_camera"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/host_icon_switch_camera"
+        app:layout_constraintLeft_toLeftOf="@id/normal_density"
+        app:layout_constraintRight_toRightOf="@id/normal_density"
+        app:layout_constraintTop_toBottomOf="@id/normal_density" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ear"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/host_icon_ear_disabled"
+        app:layout_constraintLeft_toLeftOf="@id/high_density"
+        app:layout_constraintRight_toRightOf="@id/high_density"
+        app:layout_constraintTop_toTopOf="@id/switch_camera" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/relayout_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/host_icon_relayout_grid"
+        app:layout_constraintLeft_toLeftOf="@id/ultra_density"
+        app:layout_constraintRight_toRightOf="@id/ultra_density"
+        app:layout_constraintTop_toTopOf="@id/switch_camera" />
+
+    <TextView
+        android:id="@+id/switch_camera_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/switch_camera"
+        android:textColor="#393939"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/switch_camera"
+        app:layout_constraintRight_toRightOf="@id/switch_camera"
+        app:layout_constraintTop_toBottomOf="@id/switch_camera" />
+
+    <TextView
+        android:id="@+id/ear_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ear_mirror"
+        android:textColor="#393939"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/ear"
+        app:layout_constraintRight_toRightOf="@id/ear"
+        app:layout_constraintTop_toTopOf="@id/switch_camera_title" />
+
+    <TextView
+        android:id="@+id/relayout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/relayout_grid"
+        android:textColor="#393939"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/relayout_icon"
+        app:layout_constraintRight_toRightOf="@id/relayout_icon"
+        app:layout_constraintTop_toTopOf="@id/switch_camera_title" />
+
+    <View
+        android:id="@+id/camera_click"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ear_click"
+        app:layout_constraintTop_toTopOf="@id/switch_camera" />
+
+    <View
+        android:id="@+id/ear_click"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/ear_title"
+        app:layout_constraintLeft_toRightOf="@id/camera_click"
+        app:layout_constraintRight_toLeftOf="@id/relayout_click"
+        app:layout_constraintTop_toTopOf="@id/ear" />
+
+    <View
+        android:id="@+id/relayout_click"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/relayout_title"
+        app:layout_constraintLeft_toRightOf="@id/ear_click"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/relayout_icon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

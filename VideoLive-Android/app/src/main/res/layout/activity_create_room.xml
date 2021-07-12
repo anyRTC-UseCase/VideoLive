@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.activity.CreateRoomActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_create_bg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_back_x"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_title"
+        android:padding="@dimen/dp_15"></ImageView>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建视频连麦房间"
+        android:textColor="#1A1A1E"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_back"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_back"
+        android:textSize="@dimen/sp_18"></TextView>
+
+
+
+    <TextView
+        android:id="@+id/tv_add_topic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加主题"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#1A1A1E"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_back"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_42"></TextView>
+
+    <EditText
+        android:id="@+id/et_topic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="@dimen/dp_15"
+        android:singleLine="true"
+        android:maxLength="15"
+        android:paddingRight="@dimen/dp_15"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/sp_12"
+        android:background="@drawable/shape_et_create_room"
+        android:textColorHint="#C0C0CC"
+        android:hint="添加主题"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_topic"></EditText>
+
+
+    <TextView
+        android:id="@+id/tv_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="方案选择"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#1A1A1E"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_topic"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_52"></TextView>
+
+
+    <RadioGroup
+        android:id="@+id/rg_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_33"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_33"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mode">
+
+        <RadioButton
+            android:id="@+id/rb_rtc"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_38"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:text="RTC 实时直播"
+            android:checked="true"
+            android:background="@drawable/select_room_mode"
+            android:textColor="@color/selector_create_text_color"/>
+        <RadioButton
+            android:id="@+id/rb_local"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_38"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:text="客户端推流到 CDN"
+            android:background="@drawable/select_room_mode"
+            android:textColor="@color/selector_create_text_color"/>
+        <RadioButton
+            android:id="@+id/rb_server"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_38"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:text="服务端推流到 CDN"
+            android:background="@drawable/select_room_mode"
+            android:textColor="@color/selector_create_text_color"/>
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:text="创建房间"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_60"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/shape_create_btn"
+        android:layout_marginRight="@dimen/dp_41"
+        android:layout_marginLeft="@dimen/dp_41"></Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="@dimen/dp_120"
+    android:layout_height="@dimen/dp_120"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_loading_bg">
+
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/dp_49"
+        android:layout_height="@dimen/dp_49"
+        app:shapeAppearance="@style/CircleStyle"
+        app:srcCompat="@drawable/img_loading"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tip"
+        app:layout_constraintVertical_chainStyle="packed"
+      />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#C0C0CC"
+        android:text="加载中...."
+        android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_icon"></TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

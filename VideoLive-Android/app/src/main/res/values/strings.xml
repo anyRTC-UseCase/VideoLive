@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">视频连麦</string>
+    <string name="music_idea">点击播放音乐</string>
+    <string name="music_playing">音乐播放中</string>
+    <string name="agree">同意</string>
+    <string name="voice_queue_empty">还没有人在申请上麦</string>
+    <string name="more">更多</string>
+    <string name="normal_density">标清 360P</string>
+    <string name="high_density">高清 540P</string>
+    <string name="ultra_density">超清 720P</string>
+    <string name="switch_camera">切换摄像头</string>
+    <string name="ear_mirror">耳反</string>
+    <string name="relayout_grid">等分布局</string>
+    <string name="relayout_topic">大小屏布局</string>
+    <string name="send">发送</string>
+    <string name="input_something">输入点什么</string>
+    <string name="reject">拒绝</string>
+    <string name="message">聊天</string>
+    <string name="apply">上麦</string>
+    <string name="leaveVideo">下麦</string>
+    <string name="mike_enabled">已打开麦克风</string>
+    <string name="mike_disabled">已关闭麦克风</string>
+    <string name="camera_enabled">已打开摄像头</string>
+    <string name="camera_disabled">已关闭摄像头</string>
+    <string name="plug_wired_headset">请插入有线耳机</string>
+    <string name="defaultLossRate">丢包率: 0%</string>
+    <string name="defaultLagging">延时: 0ms</string>
+    <string name="loading">加载中</string>
+    <string name="conn_limited">上麦人数已达上限</string>
+    <string name="home_title">视频连麦直播</string>
+</resources>

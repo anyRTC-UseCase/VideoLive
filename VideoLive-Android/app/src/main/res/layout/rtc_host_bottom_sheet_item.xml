@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/CircleStyle"
+        tools:src="@drawable/img_mine_top_bg" />
+
+    <TextView
+        android:id="@+id/nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        tools:text="Sky" />
+
+    <TextView
+        android:id="@+id/agree"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/rtc_host_bottom_sheet_agree_bg"
+        android:gravity="center"
+        android:text="@string/agree"
+        android:textColor="@color/white"
+        app:layout_constraintRight_toLeftOf="@id/reject"
+        app:layout_constraintTop_toTopOf="@id/reject" />
+
+    <TextView
+        android:id="@+id/reject"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/rtc_host_bottom_sheet_refuse_bg"
+        android:gravity="center"
+        android:text="@string/reject"
+        android:textColor="#5A5A66"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avatar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
