@@ -6,6 +6,9 @@ VideoLive 是anyRTC 所做的视频连麦的示例项目，演示了如何通过
 - 本地音视频合流转推CDN
 - 服务器合流转推CDN
 
+## 代码下载
+
+Github代码下载慢，请移步至[码云](https://gitee.com/anyRTC_admin/VideoLive)下载。
 
 ## 产品架构
 
