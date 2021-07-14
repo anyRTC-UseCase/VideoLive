@@ -74,7 +74,7 @@ Github代码下载慢，请移步至[码云](https://gitee.com/anyRTC_admin/Vide
 
 该demo有配套RESTful API进行开发，主要模拟用户注册、登录、获取大厅列表、创建直播间、进入直播间、等一些信息。用户参考demo逻辑，配套服务端信息可按照自身业务逻辑去做。
 
-大厅列表除了调用RESTful API 作为主入口，服务上也做了跟RTC服务做了对接，可以实时跟踪异常信息，优化大厅列表。具体查看[服务端对接文档](https://docs.anyrtc.io/cn/AnyRTCCloud/console/ncs_eventtype?platform=Android#%E5%AE%9E%E6%97%B6%E9%80%9A%E4%BF%A1)
+大厅列表除了调用RESTful API 作为主入口，服务上也做了跟RTC服务做了对接，可以实时跟踪异常信息，优化大厅列表。具体查看[服务端对接文档](https://docs.anyrtc.io/cn/Live/serverapi/ncs_eventtype#%E5%AE%9E%E6%97%B6%E9%80%9A%E4%BF%A1)
 
 
 ## 联系我们
