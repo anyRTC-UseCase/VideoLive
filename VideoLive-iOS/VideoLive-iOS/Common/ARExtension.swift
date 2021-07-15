@@ -236,9 +236,9 @@ extension NSObject {
     // 获取分辨率
     func getVideoDimensions(index: NSInteger) -> CGSize {
         switch index {
-        case 1: return CGSize(width: 640, height: 360)
-        case 2: return CGSize(width: 960, height: 540)
-        case 3: return CGSize(width: 1280, height: 720)
+        case 1: return CGSize(width: 360, height: 640)
+        case 2: return CGSize(width: 540, height: 960)
+        case 3: return CGSize(width: 720, height: 1280)
         default:
             return CGSize.zero
         }
