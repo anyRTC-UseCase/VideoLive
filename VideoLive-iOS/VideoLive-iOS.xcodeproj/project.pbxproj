@@ -27,6 +27,7 @@
 		639BC7BE2681CF2900DF365B /* ARMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639BC7BD2681CF2900DF365B /* ARMoreViewController.swift */; };
 		639BC7C12681E64100DF365B /* Log.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639BC7C02681E64100DF365B /* Log.storyboard */; };
 		639BC7C42681E65900DF365B /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639BC7C32681E65900DF365B /* LogViewController.swift */; };
+		63AB463B2768A8DC005BEF89 /* ARBaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AB463A2768A8DC005BEF89 /* ARBaseNavigationController.swift */; };
 		63D7E8BC2692AC1F001D7F0E /* ARVideoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63D7E8BA2692AC1F001D7F0E /* ARVideoView.xib */; };
 		63D7E8BD2692AC1F001D7F0E /* ARVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D7E8BB2692AC1F001D7F0E /* ARVideoView.swift */; };
 		63EBEFF8268B1A00009D6365 /* UIAlertController+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EBEFF6268B19FF009D6365 /* UIAlertController+Blocks.m */; };
@@ -56,6 +57,7 @@
 		639BC7BD2681CF2900DF365B /* ARMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMoreViewController.swift; sourceTree = "<group>"; };
 		639BC7C02681E64100DF365B /* Log.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Log.storyboard; sourceTree = "<group>"; };
 		639BC7C32681E65900DF365B /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		63AB463A2768A8DC005BEF89 /* ARBaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARBaseNavigationController.swift; sourceTree = "<group>"; };
 		63D7E8BA2692AC1F001D7F0E /* ARVideoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ARVideoView.xib; sourceTree = "<group>"; };
 		63D7E8BB2692AC1F001D7F0E /* ARVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoView.swift; sourceTree = "<group>"; };
 		63EBEFF5268B19FF009D6365 /* VideoLive-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoLive-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				639BC765267C3D9000DF365B /* Common */,
 				639BC71C267C2E6E00DF365B /* AppDelegate.swift */,
 				639BC777267C3E7A00DF365B /* ARTabBarController.swift */,
+				63AB463A2768A8DC005BEF89 /* ARBaseNavigationController.swift */,
 				639BC722267C2E6E00DF365B /* Main.storyboard */,
 				639BC7C02681E64100DF365B /* Log.storyboard */,
 				639BC725267C2E7000DF365B /* Assets.xcassets */,
@@ -297,6 +300,7 @@
 				639BC7BB2681C41100DF365B /* ARMicViewController.swift in Sources */,
 				639BC770267C3D9000DF365B /* ARExtension.swift in Sources */,
 				639BC778267C3E7A00DF365B /* ARTabBarController.swift in Sources */,
+				63AB463B2768A8DC005BEF89 /* ARBaseNavigationController.swift in Sources */,
 				639BC7A426803EA300DF365B /* AREditViewController.swift in Sources */,
 				639BC774267C3D9000DF365B /* ARNetWorkHepler.swift in Sources */,
 				639BC71D267C2E6E00DF365B /* AppDelegate.swift in Sources */,
@@ -451,21 +455,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5543CP4MRT;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "VideoLive-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ar.videolive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = videolive_dis;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "VideoLive-iOS/Common/Category/VideoLive-iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -480,21 +484,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5543CP4MRT;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "VideoLive-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ar.videolive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = videolive_dis;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "VideoLive-iOS/Common/Category/VideoLive-iOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

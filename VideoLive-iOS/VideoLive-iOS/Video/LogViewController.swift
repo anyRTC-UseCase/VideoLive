@@ -5,8 +5,8 @@
 //  Created by 余生丶 on 2021/3/9.
 //
 
-import UIKit
 import AttributedString
+import UIKit
 
 struct ARLogModel {
     var userName: String?
@@ -15,14 +15,14 @@ struct ARLogModel {
 }
 
 class LogCell: UITableViewCell {
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var colorView: UIView!
+    @IBOutlet var contentLabel: UILabel!
+    @IBOutlet var colorView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         colorView.layer.cornerRadius = 12.25
     }
-    
+
     func update(logModel: ARLogModel) {
         var userName = logModel.userName
         (userName == nil) ? userName = "" : nil
@@ -39,19 +39,18 @@ class LogCell: UITableViewCell {
 }
 
 class LogViewController: UITableViewController {
-
     private lazy var list = [ARLogModel]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell", for: indexPath) as! LogCell
         cell.update(logModel: list[indexPath.row])

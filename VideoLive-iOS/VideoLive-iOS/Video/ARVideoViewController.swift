@@ -5,10 +5,10 @@
 //  Created by 余生丶 on 2021/6/21.
 //
 
-import UIKit
 import ARtcKit
 import ARtmKit
 import AttributedString
+import UIKit
 
 var rtcKit: ARtcEngineKit!
 var rtmEngine: ARtmKit!
@@ -16,18 +16,17 @@ var infoVideoModel: ARRoomInfoModel!
 var liveTranscoding: ARLiveTranscoding!
 
 class ARVideoViewController: ARBaseViewController {
-
-    @IBOutlet weak var listButton: UIButton!
-    @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var chatButton0: UIButton!
-    @IBOutlet weak var chatButton1: UIButton!
+    @IBOutlet var listButton: UIButton!
+    @IBOutlet var moreButton: UIButton!
+    @IBOutlet var chatButton0: UIButton!
+    @IBOutlet var chatButton1: UIButton!
     
-    @IBOutlet weak var micButton: UIButton!
-    @IBOutlet weak var switchButton: UIButton!
-    @IBOutlet weak var videoButton: UIButton!
-    @IBOutlet weak var audioButton: UIButton!
-    @IBOutlet weak var musicButton: UIButton!
-    @IBOutlet weak var stateLabel: UILabel!
+    @IBOutlet var micButton: UIButton!
+    @IBOutlet var switchButton: UIButton!
+    @IBOutlet var videoButton: UIButton!
+    @IBOutlet var audioButton: UIButton!
+    @IBOutlet var musicButton: UIButton!
+    @IBOutlet var stateLabel: UILabel!
     weak var logVC: LogViewController?
     
     private var micStatus: ARMicStatus = .normal
@@ -54,7 +53,7 @@ class ARVideoViewController: ARBaseViewController {
     }()
     
     private lazy var animations: CABasicAnimation = {
-        let animation = CABasicAnimation.init(keyPath: "transform.rotation.z")
+        let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.duration = 2.0
         animation.fromValue = 0.0
         animation.toValue = Double.pi * 2
@@ -90,8 +89,8 @@ class ARVideoViewController: ARBaseViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeLayout), name: UIResponder.audioLiveNotificationLayout, object: nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(resignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     func initializeEngine() {
@@ -118,23 +117,23 @@ class ARVideoViewController: ARBaseViewController {
             
             if infoVideoModel.rType != 6 {
                 liveTranscoding = ARLiveTranscoding.default()
-                liveTranscoding.backgroundColor =  UIColor(hexString: "#1A1A1E")
+                liveTranscoding.backgroundColor = UIColor(hexString: "#1A1A1E")
                 liveTranscoding.size = getVideoDimensions(index: infoVideoModel.dimensions)
             }
         }
         
         // init ARtmKit
-        rtmEngine = ARtmKit.init(appId: UserDefaults.string(forKey: .appid)!, delegate: self)
-        rtmEngine.login(byToken: infoVideoModel.rtmToken, user: UserDefaults.string(forKey: .uid) ?? "0") { [weak self](errorCode) in
-            guard let weakself = self else {return}
+        rtmEngine = ARtmKit(appId: UserDefaults.string(forKey: .appid)!, delegate: self)
+        rtmEngine.login(byToken: infoVideoModel.rtmToken, user: UserDefaults.string(forKey: .uid) ?? "0") { [weak self] errorCode in
+            guard let weakself = self else { return }
             weakself.rtmChannel = rtmEngine.createChannel(withId: infoVideoModel.roomId!, delegate: self)
-            weakself.rtmChannel?.join(completion: { (errorCode) in
+            weakself.rtmChannel?.join(completion: { _ in
                 let dic: NSDictionary! = ["cmd": "join", "userName": UserDefaults.string(forKey: .userName) as Any]
                 weakself.sendChannelMessage(text: weakself.getJSONStringFromDictionary(dictionary: dic))
             })
             
             if !infoVideoModel.isBroadcaster {
-                rtmEngine.subscribePeersOnlineStatus([infoVideoModel.ower!.uid!]) { (errorCode) in
+                rtmEngine.subscribePeersOnlineStatus([infoVideoModel.ower!.uid!]) { errorCode in
                     print("subscribePeersOnlineStatus \(errorCode.rawValue)")
                 }
             } else {
@@ -144,11 +143,11 @@ class ARVideoViewController: ARBaseViewController {
         }
     }
     
-    //------------ RTC 实时互动 ------------------
+    // ------------ RTC 实时互动 ------------------
     func joinChannel() {
         let uid = UserDefaults.string(forKey: .uid)
-        rtcKit.joinChannel(byToken: infoVideoModel.rtcToken, channelId: infoVideoModel.roomId!, uid: uid) { [weak self](channel, uid, elapsed) in
-            guard let weakself = self else {return}
+        rtcKit.joinChannel(byToken: infoVideoModel.rtcToken, channelId: infoVideoModel.roomId!, uid: uid) { [weak self] _, _, _ in
+            guard let weakself = self else { return }
             if infoVideoModel.isBroadcaster {
                 if infoVideoModel.rType == 7 {
                     weakself.initializeStreamingKit()
@@ -160,12 +159,12 @@ class ARVideoViewController: ARBaseViewController {
     }
     
     func leaveChannel() {
-        rtcKit.leaveChannel { (stats) in
+        rtcKit.leaveChannel { _ in
             print("leaveChannel")
         }
     }
     
-    //------------ 客户端推流到 CDN ------------------
+    // ------------ 客户端推流到 CDN ------------------
     func initializeStreamingKit() {
         streamKit = ARStreamingKit()
         streamKit?.setRtcEngine(rtcKit)
@@ -179,7 +178,7 @@ class ARVideoViewController: ARBaseViewController {
         streamKit?.pushStream(infoVideoModel.pushUrl ?? "")
     }
     
-    //------------ 服务端推流到 CDN ------------------
+    // ------------ 服务端推流到 CDN ------------------
     func initializeAddPublishStreamUrl() {
         let transCodingUser = ARLiveTranscodingUser()
         transCodingUser.uid = UserDefaults.string(forKey: .uid) ?? "0"
@@ -190,7 +189,7 @@ class ARVideoViewController: ARBaseViewController {
         rtcKit.addPublishStreamUrl(infoVideoModel.pushUrl ?? "", transcodingEnabled: true)
     }
     
-    //------------ 播放器 -- 游客 ------------------
+    // ------------ 播放器 -- 游客 ------------------
     func initializeMediaPlayer() {
         broadcasterVideo.frame = view.bounds
         view.insertSubview(broadcasterVideo, at: 0)
@@ -249,7 +248,6 @@ class ARVideoViewController: ARBaseViewController {
             
             showToast(text: sender.isSelected ? "已关闭麦克风" : "已打开麦克风", image: sender.isSelected ? "icon_tip_audio_close" : "icon_tip_audio_open")
         } else if sender.tag == 55 {
-            
             if micStatus != .exist {
                 // 上麦
                 var dic: NSDictionary!
@@ -261,8 +259,8 @@ class ARVideoViewController: ARBaseViewController {
                     micStatus = .normal
                 }
                 
-                let message: ARtmMessage = ARtmMessage.init(text: getJSONStringFromDictionary(dictionary: dic))
-                rtmEngine.send(message, toPeer: (infoVideoModel.ower?.uid)!, sendMessageOptions: ARtmSendMessageOptions()) { (errorCode) in
+                let message = ARtmMessage(text: getJSONStringFromDictionary(dictionary: dic))
+                rtmEngine.send(message, toPeer: (infoVideoModel.ower?.uid)!, sendMessageOptions: ARtmSendMessageOptions()) { errorCode in
                     print("errorCode:\(errorCode.rawValue)")
                 }
             } else {
@@ -285,6 +283,11 @@ class ARVideoViewController: ARBaseViewController {
                 } else {
                     for video in videoArr {
                         video.removeFromSuperview()
+                        
+                        let videoCanvas = ARtcVideoCanvas()
+                        videoCanvas.uid = video.uid ?? "0"
+                        videoCanvas.view = nil
+                        rtcKit.setupRemoteVideo(videoCanvas)
                     }
                     videoArr.removeAll()
                     stateLabel.text = ""
@@ -297,7 +300,7 @@ class ARVideoViewController: ARBaseViewController {
         } else if sender.tag == 56 {
             // 离开
             if infoVideoModel.isBroadcaster {
-                UIAlertController.showAlert(in: self, withTitle: "结束直播", message: "是否结束直播", cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["结束"]) { [unowned self] (alertVc, action, index) in
+                UIAlertController.showAlert(in: self, withTitle: "结束直播", message: "是否结束直播", cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["结束"]) { [unowned self] _, _, index in
                     if index == 2 {
                         self.reason = .normal
                         self.destroyRoom()
@@ -319,7 +322,7 @@ class ARVideoViewController: ARBaseViewController {
         let attributeOptions = ARtmChannelAttributeOptions()
         attributeOptions.enableNotificationToChannelMembers = true
         
-        rtmEngine.addOrUpdateChannel(infoVideoModel.roomId!, attributes: [channelAttribute], options: attributeOptions) { (errorCode) in
+        rtmEngine.addOrUpdateChannel(infoVideoModel.roomId!, attributes: [channelAttribute], options: attributeOptions) { errorCode in
             print("addOrUpdateChannel code: \(errorCode.rawValue)")
         }
     }
@@ -333,8 +336,8 @@ class ARVideoViewController: ARBaseViewController {
     
     func getUserInfo(uid: String) {
         // 获取用户信息
-        let parameters : NSDictionary = ["uid": uid]
-        ARNetWorkHepler.getResponseData("getUserInfo", parameters: parameters as? [String : AnyObject], headers: true) { [weak self](result) in
+        let parameters: NSDictionary = ["uid": uid]
+        ARNetWorkHepler.getResponseData("getUserInfo", parameters: parameters as? [String: AnyObject], headers: true) { [weak self] result in
             if result["code"] == 0 {
                 for video in self!.videoArr {
                     if video.uid == uid {
@@ -344,8 +347,7 @@ class ARVideoViewController: ARBaseViewController {
                     }
                 }
             }
-        } error: { (error) in
-
+        } error: { _ in
         }
     }
     
@@ -382,11 +384,10 @@ class ARVideoViewController: ARBaseViewController {
     
     override func didSendChatTextField() {
         let text = chatTextField.text
-        if text?.count ?? 0 > 0 && !stringAllIsEmpty(string: text ?? "") {
-            
+        if text?.count ?? 0 > 0, !stringAllIsEmpty(string: text ?? "") {
             let dic: NSDictionary! = ["cmd": "msg", "content": chatTextField.text as Any, "userName": UserDefaults.string(forKey: .userName) as Any]
             sendChannelMessage(text: getJSONStringFromDictionary(dictionary: dic))
-            self.logVC?.log(logModel: ARLogModel(userName: UserDefaults.string(forKey: .userName), uid: UserDefaults.string(forKey: .uid), text: text))
+            logVC?.log(logModel: ARLogModel(userName: UserDefaults.string(forKey: .userName), uid: UserDefaults.string(forKey: .uid), text: text))
             
             chatTextField.text = ""
             chatTextField.resignFirstResponder()
@@ -396,9 +397,9 @@ class ARVideoViewController: ARBaseViewController {
     
     @objc func sendChannelMessage(text: String) {
         // 发送频道消息
-        let rtmMessage: ARtmMessage = ARtmMessage.init(text: text)
-        let options: ARtmSendMessageOptions = ARtmSendMessageOptions()
-        rtmChannel?.send(rtmMessage, sendMessageOptions: options) { (errorCode) in
+        let rtmMessage = ARtmMessage(text: text)
+        let options = ARtmSendMessageOptions()
+        rtmChannel?.send(rtmMessage, sendMessageOptions: options) { _ in
             print("Send Channel Message")
         }
     }
@@ -455,7 +456,7 @@ class ARVideoViewController: ARBaseViewController {
         rtmEngine.logout(completion: nil)
         
         rtcKit = nil; rtmEngine = nil; infoVideoModel = nil; liveTranscoding = nil
-        self.navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     func updateLiveTranscoding() {
@@ -465,10 +466,10 @@ class ARVideoViewController: ARBaseViewController {
                 liveTranscoding.size = CGSize(width: ARScreenWidth, height: ARScreenHeight)
                 liveTranscoding.transcodingUsers = nil
                 
-                for video in self.videoArr {
+                for video in videoArr {
                     let transcodingUser = ARLiveTranscodingUser()
                     transcodingUser.uid = video.uid!
-                    if video.uid == infoVideoModel.ower?.uid  && infoVideoModel.rType == 7 {
+                    if video.uid == infoVideoModel.ower?.uid, infoVideoModel.rType == 7 {
                         transcodingUser.uid = "0"
                     }
                     transcodingUser.rect = video.frame
@@ -477,7 +478,7 @@ class ARVideoViewController: ARBaseViewController {
                 
                 if infoVideoModel.rType == 7 {
                     // 本地推流
-                    self.streamKit?.setLiveTranscoding(liveTranscoding)
+                    streamKit?.setLiveTranscoding(liveTranscoding)
                 } else {
                     // 服务端推流
                     rtcKit.setLiveTranscoding(liveTranscoding)
@@ -493,7 +494,7 @@ class ARVideoViewController: ARBaseViewController {
             if state == 1 {
                 reason = .timeOut
                 showLoadingView(text: "连接中...", count: Float(Int.max))
-                self.perform(#selector(destroyRoom), with: nil, afterDelay: TimeInterval(12))
+                perform(#selector(destroyRoom), with: nil, afterDelay: TimeInterval(12))
             } else if state == 3 {
                 reason = .normal
                 dismissLoadingView()
@@ -502,7 +503,7 @@ class ARVideoViewController: ARBaseViewController {
     }
     
     func videoLayout() {
-        let allVideo = NSMutableArray.init(array: videoArr)
+        let allVideo = NSMutableArray(array: videoArr)
         if !infoVideoModel.layout {
             // 大小屏
             broadcasterVideo.frame = view.bounds
@@ -511,41 +512,40 @@ class ARVideoViewController: ARBaseViewController {
         
         let rate: CGFloat = 16/9
         if !infoVideoModel.layout || (infoVideoModel.layout && allVideo.count == 4) {
-            
             let column: NSInteger = infoVideoModel.layout ? 2 : 1
             
-            let video_height: CGFloat = (ARScreenHeight - 240)/(infoVideoModel.layout ? 2 : 3);
+            let video_height: CGFloat = (ARScreenHeight - 240)/(infoVideoModel.layout ? 2 : 3)
             let video_width: CGFloat = infoVideoModel.layout ? view.frame.size.width/CGFloat(column) : (video_height * 9/16)
             
-            for (index,video) in allVideo.enumerated() {
+            for (index, video) in allVideo.enumerated() {
                 if (infoVideoModel.layout && index < 4) || (!infoVideoModel.layout && index < 3) {
-                    let row: NSInteger = index / column
+                    let row: NSInteger = index/column
                     let col: NSInteger = index % column
                     let margin: CGFloat = infoVideoModel.layout ? 1 : 8
                     let picX: CGFloat = infoVideoModel.layout ? (margin + (video_width + margin) * CGFloat(col)) : (ARScreenWidth - 126)
                     let picY: CGFloat = 130 + margin + (video_height + margin) * CGFloat(row)
                     let videoView = video as! ARVideoView
-                    videoView.frame = CGRect.init(x: picX, y: picY, width: video_width, height: video_height)
+                    videoView.frame = CGRect(x: picX, y: picY, width: video_width, height: video_height)
                 }
             }
-        }  else if allVideo.count == 3 {
+        } else if allVideo.count == 3 {
             let video_width = view.frame.size.width/2
             let video_height = (ARScreenHeight - 240)/2
             
-            for (index,video) in allVideo.enumerated() {
+            for (index, video) in allVideo.enumerated() {
                 let videoView = video as! ARVideoView
                 if index == 0 {
-                    videoView.frame = CGRect.init(x: (view.frame.size.width - video_width)/2, y: 130, width: video_width, height: video_height)
+                    videoView.frame = CGRect(x: (view.frame.size.width - video_width)/2, y: 130, width: video_width, height: video_height)
                 } else {
-                    videoView.frame = CGRect.init(x: (video_width + 1) * CGFloat(index - 1), y: (video_height + 1) + 130, width: video_width, height: video_height)
+                    videoView.frame = CGRect(x: (video_width + 1) * CGFloat(index - 1), y: (video_height + 1) + 130, width: video_width, height: video_height)
                 }
             }
         } else if allVideo.count == 2 {
             let video_width = view.frame.size.width/2
             let video_height = video_width * rate
-            for (index,video) in allVideo.enumerated() {
+            for (index, video) in allVideo.enumerated() {
                 let videoView = video as! ARVideoView
-                videoView.frame = CGRect.init(x: CGFloat(index) * (video_width + 1), y: 130, width: video_width, height: video_height)
+                videoView.frame = CGRect(x: CGFloat(index) * (video_width + 1), y: 130, width: video_width, height: video_height)
             }
         } else if allVideo.count == 1 {
             let videoView = allVideo[0] as! ARVideoView
@@ -560,9 +560,10 @@ class ARVideoViewController: ARBaseViewController {
         }
         
         if identifier == "EmbedLogViewController",
-            let vc = segue.destination as? LogViewController {
-            self.logVC = vc
-        }  else if identifier == "ARMicViewController" {
+           let vc = segue.destination as? LogViewController
+        {
+            logVC = vc
+        } else if identifier == "ARMicViewController" {
             let vc: ARMicViewController = (segue.destination as? ARMicViewController)!
             vc.videoVc = self
         }
@@ -570,16 +571,20 @@ class ARVideoViewController: ARBaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
         removeLogoImage()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barStyle = .default
         addLogoImage()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     deinit {
@@ -588,10 +593,9 @@ class ARVideoViewController: ARBaseViewController {
     }
 }
 
-//MARK: - ARtcEngineDelegate
+// MARK: - ARtcEngineDelegate
 
 extension ARVideoViewController: ARtcEngineDelegate {
-    
     func rtcEngine(_ engine: ARtcEngineKit, tokenPrivilegeWillExpire token: String) {
         // Token 过期回调
         if infoVideoModel.isBroadcaster {
@@ -615,7 +619,7 @@ extension ARVideoViewController: ARtcEngineDelegate {
     
     func rtcEngine(_ engine: ARtcEngineKit, firstLocalVideoFrameWith size: CGSize, elapsed: Int) {
         // 已显示本地视频首帧的回调
-        if infoVideoModel.isBroadcaster && !audioButton.isSelected {
+        if infoVideoModel.isBroadcaster, !audioButton.isSelected {
             broadcasterVideo.placeholderView.isHidden = true
         } else {
             localVideo?.placeholderView.isHidden = true
@@ -627,7 +631,7 @@ extension ARVideoViewController: ARtcEngineDelegate {
         if videoArr.count < 4 {
             let videoCanvas = ARtcVideoCanvas()
             videoCanvas.uid = uid
-            if !infoVideoModel.isBroadcaster && infoVideoModel.ower?.uid == uid {
+            if !infoVideoModel.isBroadcaster, infoVideoModel.ower?.uid == uid {
                 videoCanvas.view = broadcasterVideo.renderView
                 videoArr.insert(broadcasterVideo, at: 0)
                 view.insertSubview(broadcasterVideo, at: 0)
@@ -659,9 +663,9 @@ extension ARVideoViewController: ARtcEngineDelegate {
             if userId == uid {
                 infoVideoModel.agreeMicArr.remove(at: index)
                 if topViewController() is ARMicViewController && infoVideoModel.isBroadcaster {
-                    NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo:nil)
+                    NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo: nil)
                 }
-                break;
+                break
             }
         }
     }
@@ -711,17 +715,16 @@ extension ARVideoViewController: ARtcEngineDelegate {
     }
 }
 
-//MARK: - ARtmDelegate,ARtmChannelDelegate
+// MARK: - ARtmDelegate,ARtmChannelDelegate
 
-extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
-    
+extension ARVideoViewController: ARtmDelegate, ARtmChannelDelegate {
     func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
         // 连接状态改变回调
         connectionStateChanged(state: state.rawValue)
     }
     
     func rtmKit(_ kit: ARtmKit, messageReceived message: ARtmMessage, fromPeer peerId: String) {
-        //收到点对点消息回调
+        // 收到点对点消息回调
         let dic = getDictionaryFromJSONString(jsonString: message.text)
         let value: String? = dic.object(forKey: "cmd") as? String
         if value == "apply" {
@@ -773,7 +776,7 @@ extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
         listButton.badgeValue = "\(micArr.count)"
         
         if value == "cancelApply" || value == "apply" && topViewController() is ARMicViewController && infoVideoModel.isBroadcaster {
-            NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo:nil)
+            NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo: nil)
         }
     }
     
@@ -783,7 +786,7 @@ extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
             if status.peerId == infoVideoModel.ower?.uid {
                 if status.state == .offline {
                     reason = .broadcastOffline
-                    self.perform(#selector(destroyRoom), with: nil, afterDelay: TimeInterval(12))
+                    perform(#selector(destroyRoom), with: nil, afterDelay: TimeInterval(12))
                 } else if status.state == .online {
                     reason = .normal
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(destroyRoom), object: nil)
@@ -794,11 +797,11 @@ extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
     }
     
     func channel(_ channel: ARtmChannel, messageReceived message: ARtmMessage, from member: ARtmMember) {
-        //收到频道消息回调
+        // 收到频道消息回调
         let dic = getDictionaryFromJSONString(jsonString: message.text)
         let value: String? = dic.object(forKey: "cmd") as? String
         if value == "msg" {
-            logVC?.log(logModel: ARLogModel(userName: dic.object(forKey: "userName") as? String, uid: member.uid, text:  dic.object(forKey: "content") as? String))
+            logVC?.log(logModel: ARLogModel(userName: dic.object(forKey: "userName") as? String, uid: member.uid, text: dic.object(forKey: "content") as? String))
         } else if value == "tokenPastDue" {
             reason = .tokenExpire
             destroyRoom()
@@ -828,7 +831,7 @@ extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
             if userModel.uid == member.uid {
                 micArr.remove(at: index)
                 if topViewController() is ARMicViewController && infoVideoModel.isBroadcaster {
-                    NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo:nil)
+                    NotificationCenter.default.post(name: UIResponder.audioLiveNotificationRefreshMicList, object: self, userInfo: nil)
                 }
                 listButton.badgeValue = "\(micArr.count)"
                 break
@@ -837,11 +840,11 @@ extension ARVideoViewController: ARtmDelegate,ARtmChannelDelegate {
     }
 }
 
-//MARK: - ARMediaPlayerDelegate
+// MARK: - ARMediaPlayerDelegate
 
 extension ARVideoViewController: ARMediaPlayerDelegate {
     func rtcMediaPlayer(_ playerKit: ARMediaPlayer, didChangedTo state: ARMediaPlayerState, error: ARMediaPlayerError) {
-        //报告播放器的状态
+        // 报告播放器的状态
         print("rtcMediaPlayer \(state.rawValue)  \(error.rawValue)")
         if state == .playing {
             broadcasterVideo.placeholderView.isHidden = true

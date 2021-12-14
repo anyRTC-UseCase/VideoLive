@@ -5,17 +5,16 @@
 //  Created by 余生丶 on 2021/6/22.
 //
 
-import UIKit
 import ARtmKit
+import UIKit
 
 class ARMicCell: UITableViewCell {
+    @IBOutlet var headImageView: UIImageView!
+    @IBOutlet var rejuctButton: UIButton!
+    @IBOutlet var acceptButton: UIButton!
+    @IBOutlet var nameLabel: UILabel!
     
-    @IBOutlet weak var headImageView: UIImageView!
-    @IBOutlet weak var rejuctButton: UIButton!
-    @IBOutlet weak var acceptButton: UIButton!
-    @IBOutlet weak var nameLabel: UILabel!
-    
-    var onButtonTapped : ((_ index: NSInteger) -> Void)? = nil
+    var onButtonTapped: ((_ index: NSInteger) -> Void)?
     var userModel: ARUserModel?
     var userCount: Int = 0
     
@@ -29,7 +28,7 @@ class ARMicCell: UITableViewCell {
     }
     
     @IBAction func didClickControlButton(_ sender: UIButton) {
-        if userCount < 4 && infoVideoModel.agreeMicArr.count < 3 {
+        if userCount < 4, infoVideoModel.agreeMicArr.count < 3 {
             if let onButtonTapped = self.onButtonTapped {
                 var cmd: String?
                 if sender.tag == 50 {
@@ -40,8 +39,8 @@ class ARMicCell: UITableViewCell {
                 }
                 
                 let dic: NSDictionary! = ["cmd": cmd as Any]
-                let message: ARtmMessage = ARtmMessage.init(text: getJSONStringFromDictionary(dictionary: dic))
-                rtmEngine.send(message, toPeer: (userModel?.uid)!, sendMessageOptions: ARtmSendMessageOptions()) { (errorCode) in
+                let message = ARtmMessage(text: getJSONStringFromDictionary(dictionary: dic))
+                rtmEngine.send(message, toPeer: (userModel?.uid)!, sendMessageOptions: ARtmSendMessageOptions()) { errorCode in
                     print("sendMessage code = \(errorCode.rawValue)")
                 }
                 
@@ -54,11 +53,10 @@ class ARMicCell: UITableViewCell {
 }
 
 class ARMicViewController: UIViewController, UIGestureRecognizerDelegate {
-    
-    @IBOutlet weak var numberLabel: UILabel!
-    @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var noMicLabel: UILabel!
+    @IBOutlet var numberLabel: UILabel!
+    @IBOutlet var backView: UIView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var noMicLabel: UILabel!
     let tap = UITapGestureRecognizer()
     var videoVc: ARVideoViewController!
 
@@ -67,13 +65,13 @@ class ARMicViewController: UIViewController, UIGestureRecognizerDelegate {
 
         // Do any additional setup after loading the view.
         if #available(iOS 11.0, *) {
-            backView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+            backView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else {
             // Fallback on earlier versions
         }
         tap.addTarget(self, action: #selector(didClickCloseButton))
         tap.delegate = self
-        self.view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
         
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
@@ -95,12 +93,12 @@ class ARMicViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func didClickCloseButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if(touch.view == self.view) {
-            self.dismiss(animated: true, completion: nil)
+        if touch.view == view {
+            dismiss(animated: true, completion: nil)
             return true
         } else {
             return false
@@ -108,12 +106,12 @@ class ARMicViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 
-extension ARMicViewController: UITableViewDelegate,UITableViewDataSource {
+extension ARMicViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ARMicCell = tableView.dequeueReusableCell(withIdentifier: "ARMicCellID") as! ARMicCell
         cell.selectionStyle = .none
         cell.updateMicCell(model: videoVc.micArr[indexPath.row], count: videoVc.videoArr.count)
-        cell.onButtonTapped =  { [weak self] (index) in
+        cell.onButtonTapped = { [weak self] _ in
             self?.videoVc.micArr.remove(at: indexPath.row)
             self?.tableView.reloadData()
             self?.updateMicState()

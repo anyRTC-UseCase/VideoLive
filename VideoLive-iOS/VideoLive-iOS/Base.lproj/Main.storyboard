@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l4K-HC-pNB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l4K-HC-pNB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -13,7 +13,7 @@
         <!--视频连麦-->
         <scene sceneID="g5g-ta-WJK">
             <objects>
-                <navigationController id="RBF-kR-hHV" sceneMemberID="viewController">
+                <navigationController id="RBF-kR-hHV" customClass="ARBaseNavigationController" customModule="VideoLive_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="视频连麦" id="WAe-V9-Gov"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BHX-VM-x3P">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -316,7 +316,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MnJ-cM-TPE">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MnJ-cM-TPE" id="QOI-DM-SgK">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -586,7 +586,7 @@
         <!--设置-->
         <scene sceneID="ILC-SG-EL0">
             <objects>
-                <navigationController id="Fen-tn-jlW" sceneMemberID="viewController">
+                <navigationController id="Fen-tn-jlW" customClass="ARBaseNavigationController" customModule="VideoLive_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="设置" id="ljJ-SB-IN2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ky1-YE-9KX">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -660,7 +660,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ARMicCellID" rowHeight="65" id="A51-Kp-afR" customClass="ARMicCell" customModule="VideoLive_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="65"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="414" height="65"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A51-Kp-afR" id="wa3-1L-TQX">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>

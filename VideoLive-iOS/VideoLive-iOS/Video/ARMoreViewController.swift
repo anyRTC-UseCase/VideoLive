@@ -5,15 +5,14 @@
 //  Created by 余生丶 on 2021/6/22.
 //
 
-import UIKit
 import ARtcKit
+import UIKit
 
 class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
-    
-    @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var layoutButton: UIButton!
-    @IBOutlet weak var earButton: UIButton!
+    @IBOutlet var backView: UIView!
+    @IBOutlet var stackView: UIStackView!
+    @IBOutlet var layoutButton: UIButton!
+    @IBOutlet var earButton: UIButton!
     
     let tap = UITapGestureRecognizer()
 
@@ -22,13 +21,13 @@ class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
 
         // Do any additional setup after loading the view.
         if #available(iOS 11.0, *) {
-            backView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+            backView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else {
             // Fallback on earlier versions
         }
         tap.addTarget(self, action: #selector(didClickCloseButton))
         tap.delegate = self
-        self.view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
         
         let button = stackView.viewWithTag(infoVideoModel.dimensions) as! UIButton
         button.layer.borderColor = UIColor(hexString: "#294BFF").cgColor
@@ -40,7 +39,6 @@ class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func didClickMoreButton(_ sender: UIButton) {
         if sender.tag <= 3 {
             if infoVideoModel.dimensions != sender.tag {
-                
                 let button = stackView.viewWithTag(infoVideoModel.dimensions) as! UIButton
                 button.layer.borderColor = UIColor(hexString: "#EBEBF3").cgColor
                 button.setTitleColor(UIColor(hexString: "#5A5A67"), for: .normal)
@@ -55,7 +53,6 @@ class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
                 rtcKit.setVideoEncoderConfiguration(videoConfig)
                 
                 infoVideoModel.dimensions = sender.tag
-                
             }
         } else if sender.tag == 4 {
             if infoVideoModel.videoState {
@@ -78,18 +75,18 @@ class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if sender.tag == 6 {
             sender.isSelected.toggle()
             infoVideoModel.layout = sender.isSelected
-            NotificationCenter.default.post(name: UIResponder.audioLiveNotificationLayout, object: self, userInfo:nil)
-            self.dismiss(animated: true, completion: nil)
+            NotificationCenter.default.post(name: UIResponder.audioLiveNotificationLayout, object: self, userInfo: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
     
     @IBAction func didClickCloseButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if(touch.view == self.view) {
-            self.dismiss(animated: true, completion: nil)
+        if touch.view == view {
+            dismiss(animated: true, completion: nil)
             return true
         } else {
             return false

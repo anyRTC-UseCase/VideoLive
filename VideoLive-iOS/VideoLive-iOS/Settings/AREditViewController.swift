@@ -8,9 +8,8 @@
 import UIKit
 
 class AREditViewController: UIViewController {
-    
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var numLabel: UILabel!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var numLabel: UILabel!
     
     var rightButton: UIButton!
 
@@ -23,14 +22,14 @@ class AREditViewController: UIViewController {
     }
     
     func initializeUI() {
-        self.navigationItem.leftBarButtonItem = createBarButtonItem(title: "设置昵称")
+        navigationItem.leftBarButtonItem = createBarButtonItem(title: "设置昵称")
         
-        rightButton = UIButton.init(type: .custom)
+        rightButton = UIButton(type: .custom)
         rightButton.setTitle("保存", for: .normal)
         rightButton.titleLabel?.font = UIFont(name: PingFangBold, size: 14)
         rightButton.setTitleColor(UIColor(hexString: "#C0C0CC"), for: .normal)
         rightButton.addTarget(self, action: #selector(saveNickname), for: .touchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         
         nameTextField.becomeFirstResponder()
         nameTextField.addTarget(self, action: #selector(textFieldValueChange), for: .editingChanged)
@@ -49,22 +48,22 @@ class AREditViewController: UIViewController {
     
     @objc func saveNickname() {
         let nickName = nameTextField.text
-        if Int(nickName?.count ?? 0) > 0 && !stringAllIsEmpty(string: nickName ?? "") {
+        if Int(nickName?.count ?? 0) > 0, !stringAllIsEmpty(string: nickName ?? "") {
             if nickName != UserDefaults.string(forKey: .userName) {
-                UserDefaults.set(value: nickName! , forKey: .userName)
-                //修改昵称
-                let parameters : NSDictionary = [ "userName": nickName as Any]
-                ARNetWorkHepler.getResponseData("updateUserName", parameters: parameters as? [String : AnyObject], headers: true, success: { [self] (result) in
+                UserDefaults.set(value: nickName!, forKey: .userName)
+                // 修改昵称
+                let parameters: NSDictionary = ["userName": nickName as Any]
+                ARNetWorkHepler.getResponseData("updateUserName", parameters: parameters as? [String: AnyObject], headers: true, success: { [self] _ in
                     NotificationCenter.default.post(name: UIResponder.audioLiveNotificationModifySucess, object: self, userInfo: nil)
                     popBack()
-                }) { (error) in
+                }) { error in
                     print(error)
                 }
             } else {
                 popBack()
             }
         } else {
-            UIAlertController.showAlert(in: self, withTitle: "提示", message: "昵称不能为空", cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { (alertVc, action, index) in
+            UIAlertController.showAlert(in: self, withTitle: "提示", message: "昵称不能为空", cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { _, _, index in
                 print("\(index)")
             }
         }
@@ -85,13 +84,12 @@ class AREditViewController: UIViewController {
     }
 
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         // Get the new view controller using segue.destination.
+         // Pass the selected object to the new view controller.
+     }
+     */
 }

@@ -5,21 +5,20 @@
 //  Created by 余生丶 on 2021/6/21.
 //
 
-import UIKit
 import SwiftyJSON
+import UIKit
 
 class ARCreateViewController: UIViewController {
-
-    @IBOutlet weak var roomNameTextField: UITextField!
-    @IBOutlet weak var createRoomButton: UIButton!
-    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet var roomNameTextField: UITextField!
+    @IBOutlet var createRoomButton: UIButton!
+    @IBOutlet var stackView: UIStackView!
     var selectedIndex: NSInteger = 6
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationItem.title = "创建视频连麦房间"
+        navigationItem.title = "创建视频连麦房间"
         for (index, object) in stackView.subviews.enumerated() {
             let button: UIButton = (object as? UIButton)!
             if index == 0 {
@@ -46,14 +45,14 @@ class ARCreateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.setBackgroundImage(createImage(UIColor(hexString: "#FFFFFF")), for: .any, barMetrics: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(createImage(UIColor(hexString: "#FFFFFF")), for: .any, barMetrics: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         let closeButton = UIButton(type: .custom)
         closeButton.setImage(UIImage(named: "icon_close"), for: .normal)
-        closeButton.frame = CGRect.init(x: 0, y: 0, width: 40, height: 40)
+        closeButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         closeButton.addTarget(self, action: #selector(popBack), for: .touchUpInside)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -78,25 +77,25 @@ class ARCreateViewController: UIViewController {
     
     @IBAction func createAudioRoom(_ sender: Any) {
         let roomName = roomNameTextField.text
-        //rType 6.RTC实时互动 7.客户端推流到CDN 8.服务端推流到CDN
+        // rType 6.RTC实时互动 7.客户端推流到CDN 8.服务端推流到CDN
         if roomName?.count ?? 0 > 0 {
-            let parameters : NSDictionary = ["cType": 2, "pkg": Bundle.main.infoDictionary!["CFBundleIdentifier"] as Any, "rType": selectedIndex, "roomName": roomName as Any]
-            ARNetWorkHepler.getResponseData("addRoom", parameters: parameters as? [String : AnyObject], headers: true, success: { [weak self] (result) in
+            let parameters: NSDictionary = ["cType": 2, "pkg": Bundle.main.infoDictionary!["CFBundleIdentifier"] as Any, "rType": selectedIndex, "roomName": roomName as Any]
+            ARNetWorkHepler.getResponseData("addRoom", parameters: parameters as? [String: AnyObject], headers: true, success: { [weak self] result in
                 if result["code"] == 0 {
                     let jsonData = JSON(result["data"])
-                    var model = ARRoomInfoModel.init(jsonData: jsonData)
+                    var model = ARRoomInfoModel(jsonData: jsonData)
                     model.rType = self?.selectedIndex
                     model.roomName = roomName
                     model.isBroadcaster = true
                     
-                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-                    guard let videoVc = storyboard.instantiateViewController(withIdentifier: "VideoLive_Video") as? ARVideoViewController else {return}
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let videoVc = storyboard.instantiateViewController(withIdentifier: "VideoLive_Video") as? ARVideoViewController else { return }
                     infoVideoModel = model
                     self?.navigationController?.pushViewController(videoVc, animated: true)
                 } else {
                     print(result)
                 }
-            }) { (error) in
+            }) { error in
                 print(error)
             }
         }
