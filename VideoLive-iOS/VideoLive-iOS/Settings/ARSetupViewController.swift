@@ -126,7 +126,7 @@ class ARSetupViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            UIApplication.shared.open(NSURL(string: "https://anyrtc.io/termsOfService")! as URL, options: [:], completionHandler: nil)
+            UIApplication.shared.open(NSURL(string: "https://anyrtc.io/anyrtc/privacy")! as URL, options: [:], completionHandler: nil)
             
         } else if indexPath.row == 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

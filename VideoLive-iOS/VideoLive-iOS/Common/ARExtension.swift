@@ -1019,6 +1019,7 @@ extension UIResponder {
     static let audioLiveNotificationEffect = Notification.Name(rawValue: "audioLiveNotificationEffect")
     static let audioLiveNotificationRefreshMicList = Notification.Name(rawValue: "audioLiveNotificationRefreshMicList")
     static let audioLiveNotificationLayout = Notification.Name(rawValue: "audioLiveNotificationLayout")
+    static let audioLiveNotificationChangeResolution = Notification.Name(rawValue: "audioLiveNotificationChangeResolution")
 }
 
 

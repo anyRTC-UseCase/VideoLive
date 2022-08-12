@@ -101,8 +101,8 @@ struct ARRoomInfoModel {
     var rType: NSInteger?
     //rtmp地址
     var pullRtmpUrl: String?
-    //m3u8地址
-    var pullM3U8Url: String?
+    //flv地址
+    var pullFlvUrl: String?
     
     //推流地址
     var pushUrl: String?

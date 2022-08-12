@@ -48,11 +48,35 @@ class ARMoreViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 let videoConfig = ARVideoEncoderConfiguration()
                 videoConfig.dimensions = getVideoDimensions(index: sender.tag)
-                videoConfig.bitrate = 500
+                
+               
+                switch sender.tag {
+                    case 1:
+                        videoConfig.bitrate = 500
+                        break
+                    case 2:
+                        videoConfig.bitrate = 800
+                        break
+                    case 3:
+                        videoConfig.bitrate = 1200
+                        break
+                default:
+                    break
+                    
+                }
+               // videoConfig.bitrate = 500
                 videoConfig.frameRate = 15
                 rtcKit.setVideoEncoderConfiguration(videoConfig)
-                
                 infoVideoModel.dimensions = sender.tag
+                
+                if (liveTranscoding != nil){
+                    /*
+                    liveTranscoding.size =   videoConfig.dimensions
+                    liveTranscoding.videoBitrate = videoConfig.bitrate
+                    NotificationCenter.default.post(name: UIResponder.audioLiveNotificationChangeResolution, object: self, userInfo: nil)
+                     */
+                }
+                
             }
         } else if sender.tag == 4 {
             if infoVideoModel.videoState {

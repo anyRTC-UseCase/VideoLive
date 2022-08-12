@@ -91,13 +91,20 @@ class ARVideoViewController: ARBaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(changeLayout), name: UIResponder.audioLiveNotificationLayout, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeResolution), name: UIResponder.audioLiveNotificationChangeResolution, object: nil)
     }
+
     
     func initializeEngine() {
         // init ARtcEngineKit
         rtcKit = ARtcEngineKit.sharedEngine(withAppId: UserDefaults.string(forKey: .appid)!, delegate: self)
         rtcKit.setChannelProfile(.liveBroadcasting)
         rtcKit.enableVideo()
+        
+        if infoVideoModel.rType != 6 {
+            liveTranscoding = ARLiveTranscoding.default()
+            liveTranscoding.backgroundColor = UIColor(hexString: "#1A1A1E")
+        }
         
         if infoVideoModel.isBroadcaster {
             rtcKit.setClientRole(.broadcaster)
@@ -111,15 +118,32 @@ class ARVideoViewController: ARBaseViewController {
             // setUp videoConfig
             let videoConfig = ARVideoEncoderConfiguration()
             videoConfig.dimensions = getVideoDimensions(index: infoVideoModel.dimensions)
-            videoConfig.bitrate = 500
+            
+            switch infoVideoModel.dimensions {
+                case 1:
+                    videoConfig.bitrate = 500
+                    break
+                case 2:
+                    videoConfig.bitrate = 800
+                    break
+                case 3:
+                    videoConfig.bitrate = 1200
+                    break
+            default:
+                break
+                
+            }
+            // 转码分辨率
+            if liveTranscoding != nil  {
+                liveTranscoding.size = getVideoDimensions(index: infoVideoModel.dimensions)
+                liveTranscoding.videoFramerate = 15
+                liveTranscoding.videoBitrate = videoConfig.bitrate
+            }
+         
             videoConfig.frameRate = 15
             rtcKit.setVideoEncoderConfiguration(videoConfig)
             
-            if infoVideoModel.rType != 6 {
-                liveTranscoding = ARLiveTranscoding.default()
-                liveTranscoding.backgroundColor = UIColor(hexString: "#1A1A1E")
-                liveTranscoding.size = getVideoDimensions(index: infoVideoModel.dimensions)
-            }
+           
         }
         
         // init ARtmKit
@@ -172,21 +196,27 @@ class ARVideoViewController: ARBaseViewController {
 
         let transCodingUser = ARLiveTranscodingUser()
         transCodingUser.uid = "0"
-        transCodingUser.rect = broadcasterVideo.frame
+        let scale:CGFloat = CGFloat(liveTranscoding.size.width/ARScreenWidth);
+        transCodingUser.rect = CGRect.init(x: broadcasterVideo.frame.origin.x * scale, y:   broadcasterVideo.frame.origin.y * scale, width:  broadcasterVideo.frame.size.width * scale, height: broadcasterVideo.frame.size.height * scale)
         liveTranscoding.transcodingUsers = [transCodingUser]
         streamKit?.setLiveTranscoding(liveTranscoding)
         streamKit?.pushStream(infoVideoModel.pushUrl ?? "")
+       // print("pushStream:\(infoVideoModel.pushUrl!)")
     }
     
     // ------------ 服务端推流到 CDN ------------------
     func initializeAddPublishStreamUrl() {
         let transCodingUser = ARLiveTranscodingUser()
         transCodingUser.uid = UserDefaults.string(forKey: .uid) ?? "0"
-        transCodingUser.rect = broadcasterVideo.frame
+        
+        let scale:CGFloat = CGFloat(liveTranscoding.size.width/ARScreenWidth);
+        transCodingUser.rect = CGRect.init(x: broadcasterVideo.frame.origin.x * scale, y:   broadcasterVideo.frame.origin.y * scale, width:  broadcasterVideo.frame.size.width * scale, height: broadcasterVideo.frame.size.height * scale)
+      
         liveTranscoding.transcodingUsers = [transCodingUser]
         rtcKit.setLiveTranscoding(liveTranscoding)
-        
         rtcKit.addPublishStreamUrl(infoVideoModel.pushUrl ?? "", transcodingEnabled: true)
+       // print("addPublishStreamUrl:\(infoVideoModel.pushUrl!)")
+       
     }
     
     // ------------ 播放器 -- 游客 ------------------
@@ -197,7 +227,7 @@ class ARVideoViewController: ARBaseViewController {
         
         mediaPlayer = ARMediaPlayer(delegate: self)
         mediaPlayer?.setView(broadcasterVideo.renderView)
-        mediaPlayer?.open(infoVideoModel.pullRtmpUrl!, startPos: 0)
+        mediaPlayer?.open(infoVideoModel.pullFlvUrl!, startPos: 0)
         mediaPlayer?.play()
         videoLayout()
     }
@@ -406,6 +436,9 @@ class ARVideoViewController: ARBaseViewController {
     
     @objc func becomeActive(notifi: Notification) {
         // 后台切前台
+        if  rtcKit == nil {
+            return
+        }
         if !isActive {
             rtcKit.muteLocalVideoStream(false)
             isActive = true
@@ -414,10 +447,17 @@ class ARVideoViewController: ARBaseViewController {
     
     @objc func resignActive(notifi: Notification) {
         // 前台切回后台
+        if (infoVideoModel == nil || rtcKit == nil) {
+            return
+        }
         if (infoVideoModel.isBroadcaster && !videoButton.isSelected) || (!infoVideoModel.isBroadcaster && !videoButton.isSelected && micStatus == .exist) {
             rtcKit.muteLocalVideoStream(true)
             isActive = false
         }
+    }
+    @objc func changeResolution(notifi:Notification) {
+        // 更新转码分辨率:一般的应用中，转码分辨率固定不会更改
+        updateLiveTranscoding()
     }
     
     @objc func destroyRoom() {
@@ -463,8 +503,7 @@ class ARVideoViewController: ARBaseViewController {
         // 更新合流参数
         if infoVideoModel.isBroadcaster {
             if infoVideoModel.rType != 6 {
-                liveTranscoding.size = CGSize(width: ARScreenWidth, height: ARScreenHeight)
-                liveTranscoding.transcodingUsers = nil
+                liveTranscoding.transcodingUsers?.removeAll()
                 
                 for video in videoArr {
                     let transcodingUser = ARLiveTranscodingUser()
@@ -472,7 +511,11 @@ class ARVideoViewController: ARBaseViewController {
                     if video.uid == infoVideoModel.ower?.uid, infoVideoModel.rType == 7 {
                         transcodingUser.uid = "0"
                     }
-                    transcodingUser.rect = video.frame
+                    // 缩放因子
+                    let scale:CGFloat = CGFloat(liveTranscoding.size.width/ARScreenWidth);
+                    // 计算相对于转码窗口的视频大小
+                    transcodingUser.rect = CGRect.init(x: video.frame.origin.x * scale, y:   video.frame.origin.y * scale, width:  video.frame.size.width * scale, height: video.frame.size.height * scale)
+                
                     liveTranscoding.add(transcodingUser)
                 }
                 
@@ -712,6 +755,12 @@ extension ARVideoViewController: ARtcEngineDelegate {
     func rtcEngine(_ engine: ARtcEngineKit, connectionChangedTo state: ARConnectionStateType, reason: ARConnectionChangedReason) {
         // 网络连接状态已改变回调
         connectionStateChanged(state: state.rawValue)
+    }
+    func rtcEngine(_ engine: ARtcEngineKit, rtmpStreamingEventWithUrl url: String, eventCode: ARtmpStreamingEvent) {
+        print("rtmpStreamingEventWithUrl:\(eventCode.rawValue) \n")
+    }
+    func rtcEngine(_ engine: ARtcEngineKit, rtmpStreamingChangedToState url: String, state: ARtmpStreamingState, errorCode: ARtmpStreamingErrorCode) {
+        print("rtmpStreamingChangedToState:\(state.rawValue) errorCode:\(errorCode.rawValue)")
     }
 }
 
