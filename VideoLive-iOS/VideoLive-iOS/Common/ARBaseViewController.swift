@@ -8,7 +8,6 @@
 import UIKit
 
 class ARBaseViewController: UIViewController {
-    
     var keyBoardView: UIView!
     var chatTextField: UITextField!
     var confirmButton: UIButton!
