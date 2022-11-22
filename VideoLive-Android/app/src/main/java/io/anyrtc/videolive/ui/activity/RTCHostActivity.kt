@@ -118,7 +118,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
             }
         }
 
-        liveVM.densityChange.observe(this) { beforeIndex ->
+        /*liveVM.densityChange.observe(this) { beforeIndex ->
             val view = when (beforeIndex) {
                 0 -> hostMenuSheetBinding.normalDensity
                 1 -> hostMenuSheetBinding.highDensity
@@ -126,7 +126,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
             }
             view.setBackgroundResource(R.drawable.checkbox_resolution_unchecked)
             view.setTextColor(Color.parseColor("#5A5A67"))
-        }
+        }*/
 
         liveVM.onChatMessage.observe(this) {
             chatAdapter.addData(it)
@@ -334,7 +334,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
     private fun initMenuView(): RtcHostMenuSheetBinding {
         val hostBinding = RtcHostMenuSheetBinding.inflate(layoutInflater)
         hostBinding.dismiss.setOnClickListener { sheetDialog.dismiss() }
-        val resolutionClick = View.OnClickListener {
+        /*val resolutionClick = View.OnClickListener {
             it.setBackgroundResource(R.drawable.checkbox_resolution_checked)
             (it as TextView).setTextColor(Color.parseColor("#314BFF"))
             when (it.id) {
@@ -345,7 +345,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
         }
         hostBinding.normalDensity.setOnClickListener(resolutionClick)
         hostBinding.highDensity.setOnClickListener(resolutionClick)
-        hostBinding.ultraDensity.setOnClickListener(resolutionClick)
+        hostBinding.ultraDensity.setOnClickListener(resolutionClick)*/
 
         hostBinding.cameraClick.setOnClickListener {
             liveVM.switchCamera()

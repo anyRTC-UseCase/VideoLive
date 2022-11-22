@@ -68,7 +68,7 @@ abstract class BaseLiveVM : ViewModel() {
     val applyRequestResponse = MutableLiveData<Boolean>()
 
     /* 修改分辨率时 */
-    val densityChange = MutableLiveData<Int>()
+    //val densityChange = MutableLiveData<Int>()
 
     /* 音乐播放相关状态 */
     val musicStateChange = MutableLiveData<RtcManager.MusicState>()
@@ -85,7 +85,7 @@ abstract class BaseLiveVM : ViewModel() {
     val earMonitorIconSwitch = MutableLiveData<Boolean>()
 
     /* 记录上一次选中的分辨率(索引) */
-    protected var resolutionSelectedIndex = 0
+    //protected var resolutionSelectedIndex = 0
 
     /* 分辨率常量 */
     private val densityArr = arrayOf(
@@ -184,8 +184,8 @@ abstract class BaseLiveVM : ViewModel() {
     protected open fun onToggleLayoutMode(mode: Boolean) {
     }
 
-    protected open fun densityChange(index: Int) {
-    }
+    /*protected open fun densityChange(index: Int) {
+    }*/
 
     protected open fun onExpired() {
     }
@@ -203,7 +203,7 @@ abstract class BaseLiveVM : ViewModel() {
         }
     }
 
-    fun onDensityChange(index: Int) {
+    /*fun onDensityChange(index: Int) {
         if (index == resolutionSelectedIndex)
             return
 
@@ -213,7 +213,7 @@ abstract class BaseLiveVM : ViewModel() {
         resolutionSelectedIndex = index
 
         densityChange(index)
-    }
+    }*/
 
     fun switchVideoStatus(enable: Boolean) {
         RtcManager.instance.enableLocalVideo(enable)
@@ -320,8 +320,8 @@ abstract class BaseLiveVM : ViewModel() {
 
     fun deleteRoom() {
         if (isHost) viewModelScope.launch {
-            ServerManager.instance.deleteRoom(roomId)
             RtmManager.instance.sendChannelMessage("{\"cmd\": \"exit\"}")
+            ServerManager.instance.deleteRoom(roomId)
         }
     }
 

@@ -2,13 +2,12 @@ package io.anyrtc.videolive.ui.activity
 
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.os.Bundle
-import android.view.*
-import android.widget.TextView
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.*
+import androidx.recyclerview.widget.RecyclerView.GONE
+import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kongzue.dialog.v3.MessageDialog
 import com.kongzue.dialog.v3.TipDialog
@@ -22,12 +21,10 @@ import io.anyrtc.videolive.utils.Constans
 import io.anyrtc.videolive.utils.Interval
 import io.anyrtc.videolive.utils.toast
 import io.anyrtc.videolive.view.videobuilder.DefaultVideoViewBuilderImpl
-import io.anyrtc.videolive.view.videobuilder.DefaultVideoViewParent
 import io.anyrtc.videolive.vm.CDNLiveVM
 import org.ar.rtc.Constants
 import org.ar.rtc.RtcEngine
 import org.ar.rtc.video.VideoCanvas
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -122,7 +119,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
             }
         }
 
-        liveVM.densityChange.observe(this) {
+        /*liveVM.densityChange.observe(this) {
             val view = when (it) {
                 0 -> hostMenuSheetBinding.normalDensity
                 1 -> hostMenuSheetBinding.highDensity
@@ -130,7 +127,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
             }
             view.setBackgroundResource(R.drawable.checkbox_resolution_unchecked)
             view.setTextColor(Color.parseColor("#5A5A67"))
-        }
+        }*/
 
         liveVM.onChatMessage.observe(this) {
             chatAdapter.addData(it)
@@ -168,7 +165,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
             }
         }
 
-        liveVM.musicStateChange.observe(this, {
+        liveVM.musicStateChange.observe(this) {
             when (it) {
                 RtcManager.MusicState.IDEA -> {
                     binding.musicStatus.text = "点击播放音乐"
@@ -189,7 +186,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
                     // do nothing
                 }
             }
-        })
+        }
 
         liveVM.onLayoutModeChange.observe(this) {
             DefaultVideoViewBuilderImpl.changeLayoutMode(it, binding.rlHostView)
@@ -317,7 +314,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
     private fun initMenuView(): RtcHostMenuSheetBinding {
         val hostBinding = RtcHostMenuSheetBinding.inflate(layoutInflater)
         hostBinding.dismiss.setOnClickListener { sheetDialog.dismiss() }
-        val resolutionClick = View.OnClickListener {
+        /*val resolutionClick = View.OnClickListener {
             it.setBackgroundResource(R.drawable.checkbox_resolution_checked)
             (it as TextView).setTextColor(Color.parseColor("#314BFF"))
             when (it.id) {
@@ -328,7 +325,7 @@ class CDNHostActivity : LiveBroadcastBaseActivity() {
         }
         hostBinding.normalDensity.setOnClickListener(resolutionClick)
         hostBinding.highDensity.setOnClickListener(resolutionClick)
-        hostBinding.ultraDensity.setOnClickListener(resolutionClick)
+        hostBinding.ultraDensity.setOnClickListener(resolutionClick)*/
 
         hostBinding.cameraClick.setOnClickListener {
             liveVM.switchCamera()

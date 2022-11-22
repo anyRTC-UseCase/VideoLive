@@ -30,6 +30,7 @@ class RtcManager private constructor() {
             SpUtil.get().getString(Constans.APP_ID, ""),
             RtcEvent()
         )
+        setVideoEncodeMode(VideoEncodeMode.LOW, 800)
     }
 
     fun initStreamKit() {
@@ -131,6 +132,7 @@ class RtcManager private constructor() {
         val videoEncoderConfiguration = VideoEncoderConfiguration()
         videoEncoderConfiguration.dimensions = dimensions
         videoEncoderConfiguration.bitrate = bitrate
+        videoEncoderConfiguration.frameRate = 20
         r.setVideoEncoderConfiguration(videoEncoderConfiguration)
     }
 
@@ -155,6 +157,8 @@ class RtcManager private constructor() {
         streamingKit.setLiveTranscoding(LiveTranscoding().apply {
             width = canvasInfo.width
             height = canvasInfo.height
+            videoBitrate = 800
+            videoFramerate = 20
         }.apply { transcodingArr.forEach { addUser(it) } })
     }
 

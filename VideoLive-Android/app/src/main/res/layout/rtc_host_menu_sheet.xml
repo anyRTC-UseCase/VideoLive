@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F9F9F9"
-    android:minHeight="240dp">
+    android:minHeight="180dp">
 
     <TextView
         android:id="@+id/title"
@@ -37,7 +37,7 @@
         android:background="#EBEBF2"
         app:layout_constraintTop_toBottomOf="@id/dismiss" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/normal_density"
         android:layout_width="104dp"
         android:layout_height="40dp"
@@ -75,7 +75,7 @@
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/high_density"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/normal_density" />
+        app:layout_constraintTop_toTopOf="@id/normal_density" /> -->
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/switch_camera"
@@ -83,17 +83,17 @@
         android:layout_height="24dp"
         android:layout_marginTop="28dp"
         android:src="@drawable/host_icon_switch_camera"
-        app:layout_constraintLeft_toLeftOf="@id/normal_density"
-        app:layout_constraintRight_toRightOf="@id/normal_density"
-        app:layout_constraintTop_toBottomOf="@id/normal_density" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ear"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ear"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/host_icon_ear_disabled"
-        app:layout_constraintLeft_toLeftOf="@id/high_density"
-        app:layout_constraintRight_toRightOf="@id/high_density"
+        app:layout_constraintLeft_toRightOf="@id/switch_camera"
+        app:layout_constraintRight_toLeftOf="@id/relayout_icon"
         app:layout_constraintTop_toTopOf="@id/switch_camera" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -101,8 +101,8 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/host_icon_relayout_grid"
-        app:layout_constraintLeft_toLeftOf="@id/ultra_density"
-        app:layout_constraintRight_toRightOf="@id/ultra_density"
+        app:layout_constraintLeft_toRightOf="@id/ear"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/switch_camera" />
 
     <TextView
@@ -143,7 +143,6 @@
         android:id="@+id/camera_click"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/ear_click"
@@ -153,7 +152,7 @@
         android:id="@+id/ear_click"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/ear_title"
+        app:layout_constraintBottom_toBottomOf="@id/camera_click"
         app:layout_constraintLeft_toRightOf="@id/camera_click"
         app:layout_constraintRight_toLeftOf="@id/relayout_click"
         app:layout_constraintTop_toTopOf="@id/ear" />
@@ -162,7 +161,7 @@
         android:id="@+id/relayout_click"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/relayout_title"
+        app:layout_constraintBottom_toBottomOf="@id/camera_click"
         app:layout_constraintLeft_toRightOf="@id/ear_click"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/relayout_icon" />

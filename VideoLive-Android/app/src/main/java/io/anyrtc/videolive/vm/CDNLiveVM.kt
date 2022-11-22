@@ -21,8 +21,10 @@ class CDNLiveVM : BaseLiveVM() {
 
     private var densityCanvasConfigArr = arrayOf(
         CDNStreamLayoutInfo.RESOLUTION_NORMAL,
-        CDNStreamLayoutInfo.RESOLUTION_HIGH,
-        CDNStreamLayoutInfo.RESOLUTION_ULTRA
+        CDNStreamLayoutInfo.RESOLUTION_NORMAL,
+        CDNStreamLayoutInfo.RESOLUTION_NORMAL,
+        //CDNStreamLayoutInfo.RESOLUTION_HIGH,
+        //CDNStreamLayoutInfo.RESOLUTION_ULTRA
     )
     private var densityCanvasConfig = densityCanvasConfigArr[0]
 
@@ -63,14 +65,14 @@ class CDNLiveVM : BaseLiveVM() {
         }
     }
 
-    override fun densityChange(index: Int) {
+    /*override fun densityChange(index: Int) {
         densityCanvasConfig = densityCanvasConfigArr[resolutionSelectedIndex]
         RtcManager.instance.setPushTranscodingArray(
             transcodingUserArray,
             densityCanvasConfig,
             roomType == 7
         )
-    }
+    }*/
 
     fun resetHostViewState(): Boolean {
         val hostInfoIndex = getConnListIndex(hostId)
