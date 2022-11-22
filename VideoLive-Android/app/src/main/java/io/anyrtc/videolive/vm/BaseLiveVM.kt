@@ -88,10 +88,14 @@ abstract class BaseLiveVM : ViewModel() {
     protected var resolutionSelectedIndex = 0
 
     /* 分辨率常量 */
-    private var densityArr = arrayOf(
+    private val densityArr = arrayOf(
         RtcManager.VideoEncodeMode.LOW,
         RtcManager.VideoEncodeMode.MEDIUM,
         RtcManager.VideoEncodeMode.HIGH,
+    )
+
+    private val bitrateArr = arrayOf(
+        500, 800, 1200
     )
 
     /* 当主播接收到游客连麦请求 */
@@ -203,7 +207,8 @@ abstract class BaseLiveVM : ViewModel() {
         if (index == resolutionSelectedIndex)
             return
 
-        RtcManager.instance.setVideoEncodeMode(densityArr[resolutionSelectedIndex])
+        RtcManager.instance.setVideoEncodeMode(densityArr[index], bitrateArr[index])
+        // 发送上一个选中的索引
         densityChange.value = resolutionSelectedIndex
         resolutionSelectedIndex = index
 

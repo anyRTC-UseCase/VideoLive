@@ -1,6 +1,7 @@
 package io.anyrtc.videolive.sdk
 
 import android.content.Context
+import android.util.Log
 import io.anyrtc.videolive.api.bean.CDNStreamLayoutInfo
 import io.anyrtc.videolive.utils.Constans
 import io.anyrtc.videolive.utils.SpUtil
@@ -113,22 +114,24 @@ class RtcManager private constructor() {
     }
 
     //设置不同分辨率编码
-    fun setVideoEncodeMode(mode: VideoEncodeMode) {
-        rtcEngine?.let {
-            it.setVideoEncoderConfiguration(VideoEncoderConfiguration().apply {
-                dimensions = when (mode) {
-                    VideoEncodeMode.LOW -> {
-                        VideoEncoderConfiguration.VD_640x360
-                    }
-                    VideoEncodeMode.MEDIUM -> {
-                        VideoEncoderConfiguration.VD_840x480
-                    }
-                    VideoEncodeMode.HIGH -> {
-                        VideoEncoderConfiguration.VD_1280x720
-                    }
-                }
-            })
+    fun setVideoEncodeMode(mode: VideoEncodeMode, bitrate: Int) {
+        if (rtcEngine == null) Log.e("RtcManager", "Error: RTCEngine is null")
+        val r = rtcEngine ?: return
+        val dimensions = when (mode) {
+            VideoEncodeMode.LOW -> {
+                VideoEncoderConfiguration.VD_640x360
+            }
+            VideoEncodeMode.MEDIUM -> {
+                VideoEncoderConfiguration.VD_840x480
+            }
+            else -> {
+                VideoEncoderConfiguration.VD_1280x720
+            }
         }
+        val videoEncoderConfiguration = VideoEncoderConfiguration()
+        videoEncoderConfiguration.dimensions = dimensions
+        videoEncoderConfiguration.bitrate = bitrate
+        r.setVideoEncoderConfiguration(videoEncoderConfiguration)
     }
 
     // add user to cdn stream

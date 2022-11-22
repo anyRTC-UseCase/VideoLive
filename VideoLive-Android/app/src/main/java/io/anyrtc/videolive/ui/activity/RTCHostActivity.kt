@@ -118,8 +118,8 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
             }
         }
 
-        liveVM.densityChange.observe(this) {
-            val view = when (it) {
+        liveVM.densityChange.observe(this) { beforeIndex ->
+            val view = when (beforeIndex) {
                 0 -> hostMenuSheetBinding.normalDensity
                 1 -> hostMenuSheetBinding.highDensity
                 else -> hostMenuSheetBinding.ultraDensity
@@ -164,7 +164,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
             }
         }
 
-        liveVM.musicStateChange.observe(this, {
+        liveVM.musicStateChange.observe(this) {
             when (it) {
                 RtcManager.MusicState.IDEA -> {
                     binding.musicStatus.text = "点击播放音乐"
@@ -185,7 +185,7 @@ class RTCHostActivity : LiveBroadcastBaseActivity() {
                     // do nothing.
                 }
             }
-        })
+        }
 
         liveVM.onLayoutModeChange.observe(this) {
             DefaultVideoViewBuilderImpl.changeLayoutMode(it, binding.rlHostView)
